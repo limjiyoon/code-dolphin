@@ -2,15 +2,15 @@ from abc import ABC, abstractmethod
 
 from dolphin.types import LLMResponse
 
-class LLMProviders(ABC):
+
+class LLMProvider(ABC):
     """Abstract base class for LLM providers implementations."""
 
     @abstractmethod
-    async def generate_response(
+    def generate_response(
         self,
         prompt: str,
         *,
-        max_tokens: int = 4000,
         temperature: float = 0.1,
         system_prompt: str | None = None,
     ) -> LLMResponse:
@@ -18,7 +18,6 @@ class LLMProviders(ABC):
 
         Args:
             prompt (str): The input prompt for the LLM.
-            max_tokens (int): Maximum number of tokens in response.
             temperature ( float ): Sampling temperature for response generation.
             system_prompt (str | None): Optional system prompt to set context.
 
@@ -31,7 +30,7 @@ class LLMProviders(ABC):
         ...
 
     @abstractmethod
-    async def is_available(self) -> bool:
+    def is_available(self) -> bool:
         """Check if the LLM provider is available.
 
         Returns:
@@ -39,12 +38,12 @@ class LLMProviders(ABC):
         """
         ...
 
+    @property
     @abstractmethod
-    def get_model_info(self) -> dict[str, str]:
+    def provider_info(self) -> dict[str, str]:
         """Get information about the LLM model being used.
 
         Returns:
             dict[str, str]: Dictionary containing model information.
         """
         ...
-
